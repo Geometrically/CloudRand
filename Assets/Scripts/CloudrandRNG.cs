@@ -18,16 +18,19 @@ public class CloudrandRNG : MonoBehaviour
 
     private WebCamTexture webCam;
     //Called the first fram before Update
-    void Start()
+    private void OnEnable()
     {
-        webCam = new WebCamTexture();
+        if (PlayerPrefs.HasKey("selectedDevice"))
+            webCam = new WebCamTexture(PlayerPrefs.GetString("selectedDevice"));
+        else
+            webCam = new WebCamTexture();
         webCam.Play();
 
         webcamImage.texture = webCam;
     }
 
     //Called every single frame after Start
-    void Update()
+    private void Update()
     {
         webcamImage.rectTransform.localEulerAngles = new Vector3(0,0,-webCam.videoRotationAngle);
     }
